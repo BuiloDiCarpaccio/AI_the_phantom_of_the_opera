@@ -17,6 +17,7 @@ class MonteCarlo:
         self._best_timeline = {}
         self._lock = Lock()
         self._win = 0
+        self._serialized = []
 
     def _simulate(self, game_state: AbstractGameState):
         res = None
@@ -45,7 +46,9 @@ class MonteCarlo:
                 t.join()
 
             self._best_timeline[self._win/80] = path
-            game_state.write_csv(self._win/80)
+            gs_serialized = game_state.serialize()
+            gs_serialized.append(self._win/80)
+            self._serialized.append(gs_serialized)
             return
 
         question, moves = self._game_logic.get_next_possibilities(game_state)
@@ -69,14 +72,20 @@ class MonteCarlo:
  
     def built(self):
         self._built(self._game_state, tuple(), self._depth)
+        self._game_state.write_csv(self._serialized)
 
     def get_best_choice(self):
         max = 0
         best_moves = None
+        best_key = 0
         for key in self._best_timeline:
             if max <= key:
+                best_key = key
+                max = key
                 best_moves = self._best_timeline[key]
-        #print(best_moves)
+        #print(_moves)
+        #print('\nThe best time line is ' + str(best_moves) + ' with ' + str(best_key) + '% winrate')
+        #print('\nChoices are :\n')
         #print(self._best_timeline)
         return best_moves
 

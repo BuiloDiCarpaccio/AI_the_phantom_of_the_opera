@@ -108,10 +108,8 @@ class GameState(AbstractGameState):
         
         return serialized
 
-    def write_csv(self, winrate: int):
-        row = self.serialize()
-        row.append(winrate)
+    def write_csv(self, rows: list):
         with open('winrate.csv', 'a') as f:
             write = csv.writer(f)
-            write.writerow(row)
+            write.writerows(rows)
 
