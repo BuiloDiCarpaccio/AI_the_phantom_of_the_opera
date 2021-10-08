@@ -13,7 +13,7 @@ PID_SERV=$!
 sleep 1s
 
 # launching run.py
-( python3 run.py ) &
+( python3 run.py ) &> /dev/null &
 
 sleep 0.5s
 
@@ -25,7 +25,7 @@ wait $PID_SERV
 
 validate() {
 	# Checking for timeout
-	if grep -Fxq timeout ${SERV_OUTPUT}
+	if grep -Fq timeout ${SERV_OUTPUT}
 	then
 		echo "timeout;;"
 		return 2
