@@ -28,9 +28,9 @@ class MonteCarlo:
                     self._win += 1
                 return
             if len(moves) > 0:
-                self._game_logic.apply_possibility(res, choice(moves), game_state) 
+                self._game_logic.apply_possibility(res, choice(moves), game_state)
             else:
-                self._game_logic.apply_possibility(res, moves, game_state)        
+                self._game_logic.apply_possibility(res, moves, game_state)
 
     def _built(self, game_state: AbstractGameState, path: tuple, depth: int) -> None:
         if depth == 0:
@@ -62,14 +62,14 @@ class MonteCarlo:
         if not moves:
             game_state_copied = copy.deepcopy(game_state)
             self._built(game_state_copied, path + (None,), depth - 1)
-        
+
         for move in moves:
             game_state_copied = copy.deepcopy(game_state)
 
             self._game_logic.apply_possibility(question, move, game_state_copied)
             self._built(game_state_copied, path + (move,), depth - 1)
-        
- 
+
+
     def built(self):
         self._built(self._game_state, tuple(), self._depth)
         self._game_state.write_csv(self._serialized)
@@ -80,7 +80,6 @@ class MonteCarlo:
         best_key = 0
         for key in self._best_timeline:
             if max <= key:
-                best_key = key
                 max = key
                 best_moves = self._best_timeline[key]
         #print(_moves)
