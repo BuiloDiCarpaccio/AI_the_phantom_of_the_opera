@@ -10,23 +10,34 @@ SERV_OUTPUT=$(mktemp)
 PID_SERV=$!
 
 # Waiting for the server to init
-sleep 2
+sleep 1s
 
 # launching run.py
 ( python3 run.py ) &
 
-sleep 1
+sleep 0.5s
 
 # launching random fantom
-python3 random_fantom.py &> /dev/null &
+(python3 random_fantom.py) &> /dev/null &
 
 # Waiting for the game to end
 wait $PID_SERV
 
-# Parsing of SERV_OUTPUT
-WINNER=`cat $SERV_OUTPUT | grep wins | tr ' ' '\n' | sed -n '2p'`
-FANTOM=`cat $SERV_OUTPUT | grep wins | tr ' ' '\n' | tail -1`
-FINAL_SCORE=`cat $SERV_OUTPUT | grep score | tr ' ' '\n' | tail -1`
-FANTOM=$([ $FANTOM == "wins" ] && echo -n "" || echo -n "$FANTOM" )
+validate() {
+	# Checking for timeout
+	if grep -Fxq timeout ${SERV_OUTPUT}
+	then
+		echo "timeout;;"
+		return 2
+	fi
 
-echo "${WINNER};${FANTOM};${FINAL_SCORE}"
+	# Parsing of SERV_OUTPUT
+	WINNER=$(cat $SERV_OUTPUT | grep wins | tr ' ' '\n' | sed -n '2p')
+	FANTOM=$(cat $SERV_OUTPUT | grep wins | tr ' ' '\n' | tail -1)
+	FINAL_SCORE=$(cat $SERV_OUTPUT | grep score | tr ' ' '\n' | tail -1)
+	FANTOM=$([ $FANTOM == "wins" ] && echo -n "" || echo -n "$FANTOM" )
+
+	echo "${WINNER};${FANTOM};${FINAL_SCORE}"
+}
+
+validate
