@@ -10,10 +10,11 @@ run() {
 	do
 		START=$(date +%s)
 		echo -n "Run ${i}: "
-		RESULT=$(sh launch.sh)
-		echo "${RESULT}" >> $OUTPUT
+		LAUNCHER_OUTPUT=$(sh launch.sh)
+		echo "${LAUNCHER_OUTPUT}" >> $OUTPUT
 		END=$(date +%s)
-		RESULT=$([ $(echo -n ${RESULT} | tr ';' '\n' | sed -n '1p') == "inspector" ] && echo -ne "\e[32mwin\e[0m" || echo -ne "\e[31mloose\e[0m")
+		RESULT=$([ $(echo -n ${LAUNCHER_OUTPUT} | tr ';' '\n' | sed -n '1p') == "inspector" ] && echo -ne "\e[32mwin\e[0m" || echo -ne "\e[31mloose\e[0m")
+		RESULT=$([ $(echo -n ${LAUNCHER_OUTPUT} | tr ';' '\n' | sed -n '1p') == "timeout" ] && echo -ne "\e[31mtimeout\e[0m" || echo -ne "${RESULT}")
 		echo "${RESULT} in $(( ${END} - ${START} )) sec"
 	done
 }
