@@ -23,4 +23,4 @@ class Character(AbstractCharacter):
         pass
 
     def serialize(self) -> list:
-        return [self._color, self._position, self._suspect]
+        return [self._position, self._suspect]

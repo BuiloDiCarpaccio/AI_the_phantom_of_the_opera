@@ -85,7 +85,6 @@ class GameState(AbstractGameState):
     def serialize(self) -> list:
         serialized = [
             self._actual_card.color,
-            self._carlotta_end,
             self._carlotta_position,
             self._lane_blocked,
             self._room_shadow,
