@@ -5,6 +5,7 @@ from game import character_factory
 import csv
 import copy
 import fnmatch
+import itertools
 
 from definition.enumeration import CharacterStatus
 
@@ -108,6 +109,7 @@ class GameState(AbstractGameState):
         return serialized
 
     def write_csv(self, rows: list):
+        rows = list(i for i,_ in itertools.groupby(rows))
         with open('winrate.csv', 'a') as f:
             write = csv.writer(f)
             write.writerows(rows)

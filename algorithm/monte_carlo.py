@@ -47,7 +47,7 @@ class MonteCarlo:
                     return
 
             threads = []
-            for i in range(80):
+            for i in range(self._number_simulated_games):
                 new_game_state = copy.deepcopy(game_state)
                 t = Thread(target=self._simulate, args=(new_game_state,))
                 t.start()
@@ -55,8 +55,8 @@ class MonteCarlo:
             for t in threads:
                 t.join()
 
-            self._best_timeline[self._win/80] = path
-            gs_serialized.append(self._win/80)
+            self._best_timeline[self._win/self._number_simulated_games] = path
+            gs_serialized.append(self._win/self._number_simulated_games)
             self._serialized.append(gs_serialized)
             return
 

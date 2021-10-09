@@ -10,7 +10,7 @@ from definition.enumeration import CharacterStatus
 
 
 DEPTH = 3
-NUMBER_SIMULATED_GAMES = 100
+NUMBER_SIMULATED_GAMES = 70
 
 if __name__ == '__main__':
     with ServerHandler() as server:
