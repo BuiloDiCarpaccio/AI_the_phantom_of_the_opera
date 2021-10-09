@@ -3,7 +3,7 @@ from definition import AbstractGameLogic, AbstractGameState
 from multiprocessing import Process, RawValue, Lock
 from threading import Thread
 from random import choice
-
+import csv
 from definition.enumeration import InternalQuestion
 
 
@@ -18,6 +18,7 @@ class MonteCarlo:
         self._lock = Lock()
         self._win = 0
         self._serialized = []
+        self._winrate_reader = []
 
     def _simulate(self, game_state: AbstractGameState):
         res = None
@@ -35,18 +36,26 @@ class MonteCarlo:
     def _built(self, game_state: AbstractGameState, path: tuple, depth: int) -> None:
         if depth == 0:
             self._win = 0
+            gs_serialized = game_state.serialize()
+            gs_string = ['{0}'.format(element) for element in gs_serialized]
+            for row in self._winrate_reader:
+                if gs_string == row[:-1]:
+                    print("FOUND !!!!!")
+                    print(row[:-1])
+                    print(gs_string)
+                    self._best_timeline[float(row[-1])] = path
+                    return
+
             threads = []
             for i in range(80):
                 new_game_state = copy.deepcopy(game_state)
                 t = Thread(target=self._simulate, args=(new_game_state,))
                 t.start()
                 threads.append(t)
-
             for t in threads:
                 t.join()
 
             self._best_timeline[self._win/80] = path
-            gs_serialized = game_state.serialize()
             gs_serialized.append(self._win/80)
             self._serialized.append(gs_serialized)
             return
@@ -71,8 +80,11 @@ class MonteCarlo:
 
 
     def built(self):
-        self._built(self._game_state, tuple(), self._depth)
-        self._game_state.write_csv(self._serialized)
+        with open('winrate.csv', newline='') as csvfile:
+            self._winrate_reader = csv.reader(csvfile, delimiter=',')
+            self._built(self._game_state, tuple(), self._depth)
+            self._game_state.write_csv(self._serialized)
+        return
 
     def get_best_choice(self):
         max = 0
