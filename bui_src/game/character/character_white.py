@@ -15,7 +15,6 @@ class CharacterWhite(Character):
             if moved_character.position == game_state.actual_card.position and game_state.actual_card != moved_character:
                 available_positions = game_logic.get_adjacent_positions(game_state.actual_card, game_state)
 
-                # format the name of the moved character to string
                 return getattr(InternalQuestion, f'MOVE_{moved_character.color.upper()}'), available_positions
             else:
                 game_state._end_of_turn = True

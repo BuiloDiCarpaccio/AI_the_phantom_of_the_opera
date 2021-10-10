@@ -32,13 +32,13 @@ Our script is composed of a wrapper, launch.sh, allowing to launch the server wi
 To launch a number N of games:
 
 ```sh
-./runner.sh N
+./runner.sh N [bui_inspector.py | random_inspector.py] [bui_fantom.py | random_fantom.py]
 ```
 
 To launch a game:
 
 ```sh
-launcher.sh
+launcher.sh [bui_inspector.py | random_inspector.py] [bui_fantom.py | random_fantom.py]
 ```
 
 To launch a game and get the detailed output of the server, you just have to open 3 terminals, and use respectively:
@@ -48,11 +48,11 @@ python bui_src/server.py
 ```
 
 ```sh
-python bui_inspector
+python [bui_inspector.py | random_inspector.py]
 ```
 
 ```sh
-python random_fantom
+python [bui_fantom.py | random_fantom.py]
 ```
 
 The detail of the output will be on the server terminal, as well as in the logs in the bui_src folder.
