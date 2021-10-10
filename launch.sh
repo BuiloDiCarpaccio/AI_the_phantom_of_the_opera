@@ -18,7 +18,7 @@ sleep 1s
 sleep 0.5s
 
 # launching fantom
-(python3 $2) &> /dev/null &
+( python3 $2 ) &> /dev/null &
 
 # Waiting for the game to end
 wait $PID_SERV
@@ -33,11 +33,11 @@ validate() {
 
 	# Parsing of SERV_OUTPUT
 	WINNER=$(cat $SERV_OUTPUT | grep wins | tr ' ' '\n' | sed -n '2p')
-	FANTOM=$(cat $SERV_OUTPUT | grep wins | tr ' ' '\n' | tail -1)
+	PHANTOM=$(cat $SERV_OUTPUT | grep wins | tr ' ' '\n' | tail -1)
 	FINAL_SCORE=$(cat $SERV_OUTPUT | grep score | tr ' ' '\n' | tail -1)
-	FANTOM=$([ $FANTOM == "wins" ] && echo -n "" || echo -n "$FANTOM" )
+	PHANTOM=$([ $PHANTOM == "wins" ] && echo -n "" || echo -n "$PHANTOM" )
 
-	echo "${WINNER};${FANTOM};${FINAL_SCORE}"
+	echo "${WINNER};${PHANTOM};${FINAL_SCORE}"
 }
 
 validate

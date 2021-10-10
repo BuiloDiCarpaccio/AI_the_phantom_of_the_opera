@@ -5,7 +5,7 @@ import random
 import socket
 from logging.handlers import RotatingFileHandler
 
-import protocol
+import bui_src.protocol as protocol
 
 host = "localhost"
 port = 12000
@@ -19,9 +19,9 @@ inspector_logger.setLevel(logging.DEBUG)
 formatter = logging.Formatter(
     "%(asctime)s :: %(levelname)s :: %(message)s", "%H:%M:%S")
 # file
-if os.path.exists("./logs/inspector.log"):
-    os.remove("./logs/inspector.log")
-file_handler = RotatingFileHandler('./logs/inspector.log', 'a', 1000000, 1)
+if os.path.exists("./bui_src/logs/inspector.log"):
+    os.remove("./bui_src/logs/inspector.log")
+file_handler = RotatingFileHandler('./bui_src/logs/inspector.log', 'a', 1000000, 1)
 file_handler.setLevel(logging.DEBUG)
 file_handler.setFormatter(formatter)
 inspector_logger.addHandler(file_handler)

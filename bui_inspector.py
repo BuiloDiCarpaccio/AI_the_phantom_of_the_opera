@@ -9,27 +9,27 @@ from bui_src.definition.enumeration import CharacterStatus
 # ----------------------
 
 #
-# 
-# 
-# 
-# 
-# 
-# 
-# 
-# 
+#
+#
+#
+#
+#
+#
+#
+#
 #    FAIRE LE FANTOME LOOSERATE
 
 #   TESTER AVEC DEEP = 4 MAIS SANS SIMULER LES GAMES
-# 
-# 
-# 
-# 
-# 
-# 
-# 
-# 
-# 
-# 
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
 # #######
 # #
 DEPTH = 2

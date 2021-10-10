@@ -1,6 +1,8 @@
 #! /usr/bin/env bash
 
 LOOP_COUNT=$([ -z ${1+x} ] && echo -n 1 || echo -n $1)
+PHANTOM=$([ -z ${2+x} ] && echo -n "random_fantom.py" || echo -n $2)
+INSPECTOR=$([ -z ${3+x} ] && echo -n "random_inspector.py" || echo -n $1)
 
 echo "Running the simulation for ${LOOP_COUNT} times"
 OUTPUT=$(mktemp)
@@ -10,7 +12,7 @@ run() {
 	do
 		START=$(date +%s)
 		echo -n "Run ${i}: "
-		LAUNCHER_OUTPUT=$(sh launch.sh $2 $3)
+		LAUNCHER_OUTPUT=$(sh launch.sh $PHANTOM $INSPECTOR)
 		echo "${LAUNCHER_OUTPUT}" >> $OUTPUT
 		END=$(date +%s)
 		RESULT=$([ $(echo -n ${LAUNCHER_OUTPUT} | tr ';' '\n' | sed -n '1p') == "inspector" ] && echo -ne "\e[32mwin\e[0m" || echo -ne "\e[31mloose\e[0m")
@@ -30,6 +32,8 @@ WINRATE=$(( ${WINS_CALC} / ${LOOP_COUNT} ))
 
 echo "${LOOP_COUNT} runs finished in ${TIME} sec"
 echo "Results:"
-echo "	Winrate: ${WINRATE}%"
-echo "	Wins: ${WINS}/${LOOP_COUNT}"
+echo "	Inspector winrate: ${WINRATE}%"
+echo "	Inspector wins: ${WINS}/${LOOP_COUNT}"
+echo "	Phantom winrate: $(( 100 - ${WINRATE} ))%"
+echo "	Phantom wins: $(( ${LOOP_COUNT} - ${WINS} ))/${LOOP_COUNT}"
 echo "	Timeouts: ${TIMEOUTS}"
