@@ -1,8 +1,8 @@
 #! /usr/bin/env bash
 
 LOOP_COUNT=$([ -z ${1+x} ] && echo -n 1 || echo -n $1)
-PHANTOM=$([ -z ${2+x} ] && echo -n "random_fantom.py" || echo -n $2)
-INSPECTOR=$([ -z ${3+x} ] && echo -n "random_inspector.py" || echo -n $1)
+INSPECTOR=$([ -z ${2+x} ] && echo -n "random_inspector.py" || echo -n $2)
+PHANTOM=$([ -z ${3+x} ] && echo -n "random_fantom.py" || echo -n $3)
 
 echo "Running the simulation for ${LOOP_COUNT} times"
 OUTPUT=$(mktemp)
@@ -15,7 +15,7 @@ run() {
 		LAUNCHER_OUTPUT=$(sh launch.sh $PHANTOM $INSPECTOR)
 		echo "${LAUNCHER_OUTPUT}" >> $OUTPUT
 		END=$(date +%s)
-		RESULT=$([ $(echo -n ${LAUNCHER_OUTPUT} | tr ';' '\n' | sed -n '1p') == "inspector" ] && echo -ne "\e[32mwin\e[0m" || echo -ne "\e[31mloose\e[0m")
+		RESULT=$([ $(echo -n ${LAUNCHER_OUTPUT} | tr ';' '\n' | sed -n '1p') == "inspector" ] && echo -ne "\e[32minspector\e[0m | \e[31mphantom\e[0m " || echo -ne "\e[31minspector\e[0m | \e[32mphantom\e[0m")
 		RESULT=$([ $(echo -n ${LAUNCHER_OUTPUT} | tr ';' '\n' | sed -n '1p') == "timeout" ] && echo -ne "\e[31mtimeout\e[0m" || echo -ne "${RESULT}")
 		echo "${RESULT} in $(( ${END} - ${START} )) sec"
 	done

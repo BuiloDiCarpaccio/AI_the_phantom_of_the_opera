@@ -13,12 +13,12 @@ PID_SERV=$!
 sleep 1s
 
 # launching inspector
-( python3 $1 ) &> /dev/null &
+( python3 $1 ) > /dev/null &
 
 sleep 0.5s
 
 # launching fantom
-( python3 $2 ) &> /dev/null &
+( python3 $2 ) > /dev/null &
 
 # Waiting for the game to end
 wait $PID_SERV
