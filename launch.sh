@@ -4,7 +4,7 @@
 SERV_OUTPUT=$(mktemp)
 
 # Launching server
-( python3 server.py ) &> "${SERV_OUTPUT}" &
+( python3 bui_src/server.py ) &> "${SERV_OUTPUT}" &
 
 # Getting the server PID
 PID_SERV=$!
@@ -13,7 +13,7 @@ PID_SERV=$!
 sleep 1s
 
 # launching run.py
-( python3 run.py ) &> /dev/null &
+( python3 bui_inspector.py ) &> /dev/null &
 
 sleep 0.5s
 
