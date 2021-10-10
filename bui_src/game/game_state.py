@@ -46,7 +46,10 @@ class GameState(AbstractGameState):
         if self._player == 'inspector':
             self._fantom = random.choice([character for character in self._characters if character.suspect])
         else:
-            self._fantom = self._player
+            for character in self._characters:
+                if self._player == character.color:
+                    self._fantom = character
+                    break
 
     def _initialise_alibi_cards(self) -> None:
         for character in self._characters:

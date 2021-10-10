@@ -3,6 +3,7 @@ from ..definition import AbstractGameLogic, AbstractGameState
 from multiprocessing import Process, RawValue, Lock
 from threading import Thread
 from random import choice
+import csv
 
 from ..definition.enumeration import InternalQuestion
 
@@ -18,6 +19,7 @@ class MonteCarlo:
         self._lock = Lock()
         self._win = 0
         self._serialized = []
+        self._winrate_reader = []
 
     def _simulate(self, game_state: AbstractGameState):
         res = None
@@ -35,8 +37,15 @@ class MonteCarlo:
     def _built(self, game_state: AbstractGameState, path: tuple, depth: int) -> None:
         if depth == 0:
             self._win = 0
+            gs_serialized = game_state.serialize()
+            gs_string = ['{0}'.format(element) for element in gs_serialized]
+            for row in self._winrate_reader:
+                if gs_string == row[:-1]:
+                    print('found')
+                    self._best_timeline[float(row[-1])] = path
+                    return
             threads = []
-            for i in range(80):
+            for i in range(self._number_simulated_games):
                 new_game_state = copy.deepcopy(game_state)
                 t = Thread(target=self._simulate, args=(new_game_state,))
                 t.start()
@@ -45,9 +54,9 @@ class MonteCarlo:
             for t in threads:
                 t.join()
 
-            self._best_timeline[self._win/80] = path
+            self._best_timeline[self._win/self._number_simulated_games] = path
             gs_serialized = game_state.serialize()
-            gs_serialized.append(self._win/80)
+            gs_serialized.append(self._win/self._number_simulated_games)
             self._serialized.append(gs_serialized)
             return
 
@@ -71,20 +80,26 @@ class MonteCarlo:
 
 
     def built(self):
-        self._built(self._game_state, tuple(), self._depth)
-        self._game_state.write_csv(self._serialized)
+        with open('bui_src/winrate.csv', newline='') as csvfile:
+            self._winrate_reader = csv.reader(csvfile, delimiter=',')
+            self._built(self._game_state, tuple(), self._depth)
+            self._game_state.write_csv(self._serialized)
+        return
 
     def get_best_choice(self):
-        max = 0
-        best_moves = None
-        best_key = 0
-        for key in self._best_timeline:
-            if max <= key:
-                max = key
-                best_moves = self._best_timeline[key]
-        #print(_moves)
-        #print('\nThe best time line is ' + str(best_moves) + ' with ' + str(best_key) + '% winrate')
-        #print('\nChoices are :\n')
-        #print(self._best_timeline)
+        if self._game_state.fantom == 'inspector':
+            max = 0
+            best_moves = None
+            for key in self._best_timeline:
+                if max <= key:
+                    max = key
+                    best_moves = self._best_timeline[key]
+        else:
+            max = 100
+            best_moves = None
+            for key in self._best_timeline:
+                if max >= key:
+                    max = key
+                    best_moves = self._best_timeline[key]
         return best_moves
 

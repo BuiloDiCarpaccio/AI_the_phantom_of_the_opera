@@ -8,8 +8,31 @@ import random
 from bui_src.definition.enumeration import CharacterStatus
 # ----------------------
 
+#
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+#    FAIRE LE FANTOME LOOSERATE
 
-DEPTH = 3
+#   TESTER AVEC DEEP = 4 MAIS SANS SIMULER LES GAMES
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# #######
+# #
+DEPTH = 2
 NUMBER_SIMULATED_GAMES = 70
 
 if __name__ == '__main__':

@@ -9,7 +9,7 @@ from bui_src.definition.enumeration import CharacterStatus
 # ----------------------
 
 
-DEPTH = 3
+DEPTH = 2
 NUMBER_SIMULATED_GAMES = 70
 
 if __name__ == '__main__':

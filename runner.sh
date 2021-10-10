@@ -10,7 +10,7 @@ run() {
 	do
 		START=$(date +%s)
 		echo -n "Run ${i}: "
-		LAUNCHER_OUTPUT=$(sh launch.sh)
+		LAUNCHER_OUTPUT=$(sh launch.sh $2 $3)
 		echo "${LAUNCHER_OUTPUT}" >> $OUTPUT
 		END=$(date +%s)
 		RESULT=$([ $(echo -n ${LAUNCHER_OUTPUT} | tr ';' '\n' | sed -n '1p') == "inspector" ] && echo -ne "\e[32mwin\e[0m" || echo -ne "\e[31mloose\e[0m")

@@ -12,13 +12,13 @@ PID_SERV=$!
 # Waiting for the server to init
 sleep 1s
 
-# launching run.py
-( python3 bui_inspector.py ) &> /dev/null &
+# launching inspector
+( python3 $1 ) &> /dev/null &
 
 sleep 0.5s
 
-# launching random fantom
-(python3 random_fantom.py) &> /dev/null &
+# launching fantom
+(python3 $2) &> /dev/null &
 
 # Waiting for the game to end
 wait $PID_SERV
