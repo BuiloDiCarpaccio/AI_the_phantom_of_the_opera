@@ -15,8 +15,8 @@ run() {
 		LAUNCHER_OUTPUT=$(sh launch.sh $PHANTOM $INSPECTOR)
 		echo "${LAUNCHER_OUTPUT}" >> $OUTPUT
 		END=$(date +%s)
-		RESULT=$([ $(echo -n ${LAUNCHER_OUTPUT} | tr ';' '\n' | sed -n '1p') == "inspector" ] && echo -ne "\e[32minspector\e[0m | \e[31mphantom\e[0m " || echo -ne "\e[31minspector\e[0m | \e[32mphantom\e[0m")
-		RESULT=$([ $(echo -n ${LAUNCHER_OUTPUT} | tr ';' '\n' | sed -n '1p') == "timeout" ] && echo -ne "\e[31mtimeout\e[0m" || echo -ne "${RESULT}")
+		RESULT=$([ $(echo -n ${LAUNCHER_OUTPUT} | tr ';' '\n' | sed -n '1p') == "inspector" ] && echo -ne "\033[32minspector\033[0m | \033[31mphantom\033[0m " || echo -ne "\033[31minspector\033[0m | \033[32mphantom\033[0m")
+		RESULT=$([ $(echo -n ${LAUNCHER_OUTPUT} | tr ';' '\n' | sed -n '1p') == "timeout" ] && echo -ne "\033[31mtimeout\033[0m" || echo -ne "${RESULT}")
 		echo "${RESULT} in $(( ${END} - ${START} )) sec"
 	done
 }
