@@ -12,7 +12,7 @@ run() {
 	do
 		START=$(date +%s)
 		echo -n "Run ${i}: "
-		LAUNCHER_OUTPUT=$(sh launch.sh $PHANTOM $INSPECTOR)
+		LAUNCHER_OUTPUT=$(sh launch.sh $INSPECTOR $PHANTOM)
 		echo "${LAUNCHER_OUTPUT}" >> $OUTPUT
 		END=$(date +%s)
 		RESULT=$([ $(echo -n ${LAUNCHER_OUTPUT} | tr ';' '\n' | sed -n '1p') == "inspector" ] && echo -ne "\033[32minspector\033[0m | \033[31mphantom\033[0m " || echo -ne "\033[31minspector\033[0m | \033[32mphantom\033[0m")
