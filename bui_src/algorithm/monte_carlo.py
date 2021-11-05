@@ -9,6 +9,7 @@ from ..definition.enumeration import InternalQuestion
 
 
 class MonteCarlo:
+    """ Monte Carlo implementation """
 
     def __init__(self, game_logic: AbstractGameLogic, game_state: AbstractGameState, depth: int, number_simulated_games: int) -> None:
         self._depth = depth
@@ -87,7 +88,7 @@ class MonteCarlo:
         return
 
     def get_best_choice(self):
-        if self._game_state.fantom == 'inspector':
+        if self._game_state.player == 'inspector':
             max = 0
             best_moves = None
             for key in self._best_timeline:

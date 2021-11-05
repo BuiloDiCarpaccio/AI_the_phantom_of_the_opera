@@ -76,3 +76,7 @@ class AbstractGameState(metaclass=abc.ABCMeta):
     @property
     def fantom(self) -> AbstractCharacter:
         return self._fantom
+
+    @property
+    def player(self) -> AbstractCharacter:
+        return self._player
